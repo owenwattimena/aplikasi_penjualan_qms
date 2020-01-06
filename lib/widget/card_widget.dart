@@ -5,10 +5,17 @@ class CardWidget extends StatefulWidget {
   final String menu;
   final int harga;
   final int total;
+  final int curentOrder;
   final void Function(int, int) order;
 
   const CardWidget(
-      {Key key, this.asset, this.menu, this.order, this.total, this.harga})
+      {Key key,
+      this.asset,
+      this.menu,
+      this.order,
+      this.total,
+      this.harga,
+      this.curentOrder})
       : super(key: key);
 
   @override
@@ -16,10 +23,9 @@ class CardWidget extends StatefulWidget {
 }
 
 class _CardWidgetState extends State<CardWidget> {
-  int order = 0;
-
   @override
   Widget build(BuildContext context) {
+    int order = widget.curentOrder;
     return Card(
       child: Container(
         padding: EdgeInsets.all(8),
@@ -44,10 +50,10 @@ class _CardWidgetState extends State<CardWidget> {
                     child: Icon(Icons.remove),
                     onPressed: () {
                       setState(() {
-                        if (this.order != 0) {
-                          this.order -= 1;
+                        if (order != 0) {
+                          order -= 1;
                           int total = widget.total - widget.harga;
-                          widget.order(this.order, total);
+                          widget.order(order, total);
                         }
                       });
                     },
@@ -55,16 +61,16 @@ class _CardWidgetState extends State<CardWidget> {
                 ),
                 Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Text(this.order.toString())),
+                    child: Text(order.toString())),
                 ButtonTheme(
                   minWidth: 30,
                   child: RaisedButton(
                     child: Icon(Icons.add),
                     onPressed: () {
                       setState(() {
-                        this.order += 1;
+                        order += 1;
                         int total = widget.total + widget.harga;
-                        widget.order(this.order, total);
+                        widget.order(order, total);
                       });
                     },
                   ),

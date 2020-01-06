@@ -17,8 +17,9 @@ class _MainPageState extends State<MainPage> {
   bool esKelapa = false;
   bool esTeler = false;
   Map daftarPesanan = {
-    'Es kelapa': 0,
-    'Es teler': 0,
+    'RW': 0,
+    'Ayam Panggang': 0,
+    'Salad': 0,
   };
 
   int total = 0;
@@ -48,16 +49,24 @@ class _MainPageState extends State<MainPage> {
 
     String pesanan = ""; //H
 
-    if (daftarPesanan['Es kelapa'] != 0) {
+    if (daftarPesanan['RW'] != 0) {
       //I
-      int jumlah = daftarPesanan['Es kelapa'];
-      pesanan += "Es Kelapa - " + jumlah.toString(); //J
+      int jumlah = daftarPesanan['RW'];
+      pesanan += "RW - " + jumlah.toString(); //J
     } //K
 
-    if (daftarPesanan['Es teler'] != 0) {
+    if (daftarPesanan['Ayam Panggang'] != 0) {
       //L
-      int jumlah = daftarPesanan['Es teler'];
-      pesanan += "~Es teler - " + jumlah.toString(); //M
+      int jumlah = daftarPesanan['Ayam Panggang'];
+      pesanan += "~Ayam Panggang - " + jumlah.toString(); //M
+    } else {
+      //N
+      pesanan += '~'; //O
+    } //P
+    if (daftarPesanan['Salad'] != 0) {
+      //L
+      int jumlah = daftarPesanan['Salad'];
+      pesanan += "~Salad - " + jumlah.toString(); //M
     } else {
       //N
       pesanan += '~'; //O
@@ -95,27 +104,32 @@ class _MainPageState extends State<MainPage> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Mata Kuliah QMS.'),
-                Text('\"Es Kota Jawa!\"'),
+                Text('Quality Management System.'),
+                Text('\"Onaki Food!\"'),
                 Padding(
                   padding: EdgeInsets.only(top: 10),
                 ),
-                Text('Karya Anak TI C 2016 POLNAM'),
+                Text('Oleh TI C semester 7 POLNAM'),
                 Padding(
                   padding: EdgeInsets.only(top: 10),
                 ),
                 Text(
-                  'Charla Gracia Dezire Sopacua',
+                  'Frelly R Parinussa',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '1316144070',
+                  '1316144060',
                   style: TextStyle(fontSize: 14),
                 ),
-                Text('Owen Wattimena',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                ),
                 Text(
-                  '1316144074',
+                  'Fianus Maxi Frandy',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  '1316144083',
                   style: TextStyle(fontSize: 14),
                 ),
               ],
@@ -124,13 +138,7 @@ class _MainPageState extends State<MainPage> {
           actions: <Widget>[
             FlatButton(
               child: Row(
-                children: <Widget>[
-                  Text('Ter Eeunch'),
-                  Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                  )
-                ],
+                children: <Widget>[Text('Ok')],
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -146,7 +154,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Es Kota Jawa"),
+        title: Text("Onaki Food"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.list),
@@ -171,29 +179,16 @@ class _MainPageState extends State<MainPage> {
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              TextFormField(
-                controller: _nama,
-                decoration: InputDecoration(
-                  labelText: 'Nama Pembeli',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Mohon masukan Nama Pembeli';
-                  }
-                  return null;
-                },
-              ),
-              Padding(padding: EdgeInsets.only(top: 8)),
               // Text("Menu"),
               CardWidget(
-                asset: "assets/img/es_kelapa.jpg",
-                menu: "Es Kelapa - Rp. 10.000",
+                asset: "assets/img/rw.jpg",
+                menu: "RW - Rp. 10.000",
                 harga: 10000,
                 total: this.total,
+                curentOrder: daftarPesanan['RW'],
                 order: (order, _total) {
                   setState(() {
-                    daftarPesanan['Es kelapa'] = order;
+                    daftarPesanan['RW'] = order;
                     this.total = _total;
                     if (_bayar.text.isEmpty) {
                       this.kembali = 0 - this.total;
@@ -204,13 +199,32 @@ class _MainPageState extends State<MainPage> {
                 },
               ),
               CardWidget(
-                asset: "assets/img/es_teler.jpg",
-                menu: "Es Teler - Rp. 10.000",
+                asset: "assets/img/ayam_panggang.jpg",
+                menu: "Ayam Panggang - Rp. 10.000",
                 harga: 10000,
                 total: this.total,
+                curentOrder: daftarPesanan['Ayam Panggang'],
                 order: (order, _total) {
                   setState(() {
-                    daftarPesanan['Es teler'] = order;
+                    daftarPesanan['Ayam Panggang'] = order;
+                    this.total = _total;
+                    if (_bayar.text.isEmpty) {
+                      this.kembali = 0 - this.total;
+                    } else {
+                      this.kembali = int.parse(_bayar.text) - this.total;
+                    }
+                  });
+                },
+              ),
+              CardWidget(
+                asset: "assets/img/salad.jpg",
+                menu: "Salad - Rp. 10.000",
+                harga: 10000,
+                total: this.total,
+                curentOrder: daftarPesanan['Salad'],
+                order: (order, _total) {
+                  setState(() {
+                    daftarPesanan['Salad'] = order;
                     this.total = _total;
                     if (_bayar.text.isEmpty) {
                       this.kembali = 0 - this.total;
@@ -246,6 +260,21 @@ class _MainPageState extends State<MainPage> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Mohon masukan jumlah nominal yang sesuai';
+                  }
+                  return null;
+                },
+              ),
+              Padding(padding: EdgeInsets.only(top: 8)),
+
+              TextFormField(
+                controller: _nama,
+                decoration: InputDecoration(
+                  labelText: 'Nama Pembeli',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Mohon masukan Nama Pembeli';
                   }
                   return null;
                 },

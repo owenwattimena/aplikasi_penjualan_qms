@@ -45,6 +45,7 @@ class _ListPageState extends State<ListPage> {
                 ),
                 Text(list[0]),
                 Text(list[1]),
+                Text(list[2]),
                 Text(this.listOfHistory[i].total.toString()),
                 Padding(
                   padding: EdgeInsets.only(top: 10),
